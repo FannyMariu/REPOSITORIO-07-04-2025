@@ -1,0 +1,65 @@
+-- Crear la base de datos
+CREATE DATABASE ControlAsistenciaUPTVal;
+
+-- Seleccionar la base de datos recién creada
+USE ControlAsistenciaUPTVal;
+
+-- Crear la tabla Carrera PNF
+CREATE TABLE Carrera (
+    id_carrera INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL
+);
+
+-- Crear la tabla Trayecto
+CREATE TABLE Trayecto (
+    id_trayecto INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    id_carrera INT,
+    FOREIGN KEY (id_carrera) REFERENCES Carrera(id_carrera)
+);
+
+-- Crear la tabla Materia
+CREATE TABLE Materia (
+    id_materia INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    id_trayecto INT,
+    FOREIGN KEY (id_trayecto) REFERENCES Trayecto(id_trayecto)
+);
+
+-- Crear la tabla Profesor
+CREATE TABLE Profesor (
+    id_profesor INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL
+);
+
+-- Crear la tabla Seccion
+CREATE TABLE Seccion (
+    id_seccion INT AUTO_INCREMENT PRIMARY KEY,
+    id_materia INT,
+    id_profesor INT,
+    FOREIGN KEY (id_materia) REFERENCES Materia(id_materia),
+    FOREIGN KEY (id_profesor) REFERENCES Profesor(id_profesor)
+);
+
+-- Crear la tabla Alumno
+CREATE TABLE Alumno (
+    id_alumno INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    id_carrera INT,
+    FOREIGN KEY (id_carrera) REFERENCES Carrera(id_carrera)
+);
+
+-- Crear la tabla Asistencia
+CREATE TABLE Asistencia (
+    id_asistencia INT AUTO_INCREMENT PRIMARY KEY,
+    id_alumno INT,
+    id_materia INT,
+    id_seccion INT,
+    id_profesor INT,
+    fecha DATE NOT NULL,
+    hora TIME NOT NULL,
+    FOREIGN KEY (id_alumno) REFERENCES Alumno(id_alumno),
+    FOREIGN KEY (id_materia) REFERENCES Materia(id_materia),
+    FOREIGN KEY (id_seccion) REFERENCES Seccion(id_seccion),
+    FOREIGN KEY (id_profesor) REFERENCES Profesor(id_profesor)
+);
